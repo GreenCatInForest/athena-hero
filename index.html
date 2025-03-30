@@ -28,9 +28,11 @@
       @keyframes glow {
         0%, 100% {
           box-shadow: 0 0 10px #9f3fff;
+          opacity: 0.8;
         }
         50% {
           box-shadow: 0 0 20px #c084fc;
+          opacity: 1;
         }
       }
 
@@ -44,6 +46,32 @@
     
       }
     }
+
+    @keyframes pulseSlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 1px 1px white;
+  }
+  50% {
+    transform: scale(1.14);
+    box-shadow: 0 0 6px 2px white;
+  }
+}
+
+
+
+.dual-anim {
+    animation:       
+    fadeIn 2.8s ease-in 0.5s 1 forwards,
+    glow 8s ease-in-out 3s infinite forwards,
+    pulseSlow 6s ease-in-out 3s 3 forwards;
+  }
+
+.animation-delay-3000 {
+  animation-delay: 3s;
+}
+
+
     .animation-delay-500 {
       animation-delay: 0.5s;
     }
@@ -82,7 +110,7 @@
         <p class="text-gray-300 max-w-md mb-6">
           Your AI companion council for focus, brilliance, and daily support.
         </p>
-        <button class="w-full sm:w-auto px-6 py-3 rounded-full bg-[#9f3fff] hover:bg-purple-700 transition duration-500 linear shadow-[0_0_2px_#f3ccfc] hover:shadow-[0_0_10px] hover:shadow-indigo-800 opacity-0 animate-[fadeIn_1s_ease-out_forwards] animation-delay-1000 ">
+        <button class=" w-full sm:w-auto px-6 py-3 rounded-full bg-[#9f3fff] hover:bg-purple-700 transition duration-500 linear shadow-[0_0_2px_#f3ccfc] hover:shadow-[0_0_10px] hover:shadow-indigo-800 opacity-0 dual-anim">
           Meet the Team
         </button>
       </section>
