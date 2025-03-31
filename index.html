@@ -9,6 +9,7 @@
     <title>Athena Hero</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter&family=Playfair+Display&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
     <style>
         html {
             background-color: black;
@@ -53,19 +54,34 @@
     box-shadow: 0 0 1px 1px white;
   }
   50% {
-    transform: scale(1.14);
+    transform: scale(1.05);
     box-shadow: 0 0 6px 2px white;
   }
 }
 
+@keyframes slideUpFade {
+  0% {
+    opacity: 0.6;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-100px);
+  }
+}
 
 
 .dual-anim {
     animation:       
     fadeIn 2.8s ease-in 0.5s 1 forwards,
-    glow 8s ease-in-out 3s infinite forwards,
-    pulseSlow 6s ease-in-out 3s 3 forwards;
+    glow 8s ease-in-out 3s 2 forwards,
+    pulseSlow 6s ease-in-out 3s 2 forwards;
   }
+
+.slide-up-show {
+  animation: slideUpFade 1s ease-in-out forwards;
+}
+
 
 .animation-delay-3000 {
   animation-delay: 3s;
@@ -88,13 +104,16 @@
       animation-delay: 2s;
     }
 
-
+    .council-visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+    }
     </style>
   </head>
 
   <body class="overflow-x-hidden box-border bg-gradient-to-b from-[#0d0c2b] via-[#2c2356] to-[#0a0a0a] text-white">
     <!-- Hero Section -->
-    <header class="flex min-h-screen flex-col justify-between  px-2 mx-auto overflow-hidden box-border">
+    <div class="flex min-h-screen flex-col justify-between  px-2 mx-auto overflow-hidden box-border">
       <!-- Top Navigation -->
       <nav class="flex flex-col md:flex-row items-center md:justify-between gap-4 md:gap-0 px-4 py-3 sm:px-6 sm:py-6">
         <h1 class="text-xl font-bold">Athena</h1>
@@ -103,20 +122,129 @@
 
        <!-- Hero Content --> 
       <main>
-      <section class="hero-content opacity-0 animate-[fadeIn_1s_ease-in-out_forwards] flex flex-col items-center justify-center flex-grow text-center gap-4 px-4">
+      <section id="heroSection" class="hero-content  flex flex-col items-center justify-center flex-grow text-center gap-4 px-4">
         <h2 class="text-3xl sm:text-5xl lg:text-6xl max-w-xs sm:max-w-md font-bold mb-4 leading-tight opacity-0 animate-[fadeIn_1s_ease-in_forwards] animation-delay-1500">
           Strategy. Power. Endurance.
         </h2>
         <p class="text-gray-300 max-w-md mb-6">
           Your AI companion council for focus, brilliance, and daily support.
         </p>
-        <button class=" w-full sm:w-auto px-6 py-3 rounded-full bg-[#9f3fff] hover:bg-purple-700 transition duration-500 linear shadow-[0_0_2px_#f3ccfc] hover:shadow-[0_0_10px] hover:shadow-indigo-800 opacity-0 dual-anim">
+        <button id="revealHeroBtn"  class=" w-full sm:w-auto px-6 py-3 rounded-full bg-[#9f3fff] hover:bg-purple-700 transition duration-500 linear shadow-[0_0_2px_#f3ccfc] hover:shadow-[0_0_10px] hover:shadow-indigo-800 opacity-0 dual-anim">
           Meet the Team
         </button>
       </section>
+      <div id="council-section" class="opacity-0 translate-y-10 transition-all duration-700 flex flex-row gap-4 items-center mt-20">
+        <div class="card opacity-0 translate-y-6 transition-all duration-700 rounded-lg px-6 py-4 w-full max-w-sm shadow-md">
+          <div class="bg-[#181a2a] p-6 rounded-xl shadow-lg text-center transition-all duration-300 hover:scale-105">
+            <h3 class="text-sm text-gray-400 mb-2 uppercase">The Strategist</h3>
+            <h4 class="text-xl text-purple-300 font-semibold mb-2">Athena</h4>
+            <p class="text-sm text-gray-400">Clarity. Focus. Gentle precision.</p>
+          </div>
+        </div>
+        <div class="card opacity-0 translate-y-6 transition-all duration-700 rounded-lg px-6 py-4 w-full max-w-sm shadow-md">
+          <div class="bg-[#181a2a] p-6 rounded-xl shadow-lg text-center transition-all duration-300 hover:scale-105">
+            <h3 class="text-sm text-gray-400 mb-2 uppercase">The Diplomat</h3>
+            <h4 class="text-xl text-purple-300 font-semibold mb-2">Seren Halewyn</h4>
+            <p class="text-sm text-gray-400 italic mb-2 ">- Even in silence, influence.</p>
+            <p class="text-sm text-gray-400">Guides professional communication, conflict mediation, boundaries management.</p>
+            <button onclick="summonSeren()" class="mt-4 px-4 py-2 bg-teal-700 text-white rounded-full hover:bg-teal-600 transition">Ask Seren</button>
+          </div>
+        </div>
+
+        <div class="card opacity-0 translate-y-6 transition-all duration-700 rounded-lg px-6 py-4 w-full max-w-sm shadow-md">
+          <div class="bg-[#181a2a] p-6 rounded-xl shadow-lg text-center transition-all duration-300 hover:scale-105">
+            <h3 class="text-sm text-gray-400 mb-2 uppercase">The Challenger</h3>
+            <h4 class="text-xl text-red-600 font-semibold mb-2">Caelum Vire</h4>
+            <p class="text-sm text-gray-400 italic mb-2 ">- No fire? Then we light one.</p>
+            <p class="text-sm text-gray-400">Caelum is your inner fire — pushing you past fear, distraction, and self-sabotage. For when you need action, not excuses.</p>
+            <button onclick="summonCaelum()" class="mt-4 px-4 py-2 bg-teal-700 text-white rounded-full hover:bg-red-600 transition">Push Me</button>
+          </div>
+        </div>
+      </div>
       </main>
       <!-- Footer or decorative area (optional) -->
       <div class="pb-4 text-center text-sm text-gray-500">© 2025 Athena Project</div>
-    </header>
+    </div>
+    <script>
+      const hero = document.getElementById("heroSection");
+      const council = document.getElementById("council-section");
+    
+      document.getElementById("revealHeroBtn").addEventListener("click", () => {
+        // Animate hero
+        hero.classList.add("slide-up-show");
+    
+        // When hero animation ends
+        hero.addEventListener("animationend", () => {
+          // Reveal council section container (for spacing & layout)
+          council.classList.remove("opacity-0");
+          council.classList.remove("translate-y-10");
+    
+          // Animate each card in a staggered sequence
+          const cards = document.querySelectorAll("#council-section .card");
+          cards.forEach((card, index) => {
+            setTimeout(() => {
+              card.classList.remove("opacity-0", "translate-y-6");
+            }, index * 300); // 300ms delay between each card
+          });
+        }, { once: true });
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+      function summonSeren() {
+        const responses = [
+          "Take a breath. Would you like to craft a message that communicates strength and peace?",
+          "This might be a power play. I can help you respond without feeding the fire.",
+          "Let’s write something together that sets boundaries — without guilt.",
+          "Here’s a way to say no… while still sounding professional and clear."
+        ];
+      
+        const serenBox = document.createElement("div");
+        serenBox.className = "fixed bottom-8 right-8 bg-[#1f2937] text-white p-4 rounded-lg shadow-lg w-[300px]";
+        serenBox.innerHTML = `
+          <h3 class="text-teal-300 text-lg font-semibold mb-2">Seren Halewyn</h3>
+          <p class="text-sm mb-2 italic">"${responses[Math.floor(Math.random() * responses.length)]}"</p>
+          <button onclick="this.parentElement.remove()" class="text-teal-400 hover:underline text-xs">Dismiss</button>
+        `;
+        document.body.appendChild(serenBox);
+      }
+
+      function summonCaelum() {
+  const quotes = [
+    "No fire? Then we light one.",
+    "You don’t need to feel ready — you need to move.",
+    "Ten minutes of courage beats ten hours of overthinking.",
+    "You know what to do. I’m just here to shove you forward.",
+    "Stand up. The version of you you're building needs this moment.",
+    "Nobody is coming. That’s why you’re here."
+  ];
+
+  // Remove any existing box if present
+  const existing = document.getElementById("caelum-dialogue");
+  if (existing) {
+    existing.remove();
+  }
+
+  // Create a new one fresh each time
+  const caelumBox = document.createElement("div");
+  caelumBox.id = "caelum-dialogue";
+  caelumBox.className = "fixed bottom-8 left-8 bg-[#1f1b24] border border-red-500 text-white p-5 rounded-lg shadow-xl w-[320px] z-50 animate-fadeInUp";
+
+  caelumBox.innerHTML = `
+    <h3 class="text-red-400 text-lg font-bold mb-2">Caelum Vire</h3>
+    <p class="text-sm mb-3 italic">"${quotes[Math.floor(Math.random() * quotes.length)]}"</p>
+    <button id="dismissCaelum" class="text-red-300 hover:underline text-xs">Dismiss</button>
+  `;
+
+  document.body.appendChild(caelumBox);
+
+  // Add proper event listener for dismiss
+  document.getElementById("dismissCaelum").addEventListener("click", () => {
+    caelumBox.remove();
+  });
+}
+</script>
+
+
   </body>
 </html>
